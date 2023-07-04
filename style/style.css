@@ -3,3 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.z {
+    background-color: yellowgreen;
+}
+
+.c {
+    background-color: cadetblue;
+}
