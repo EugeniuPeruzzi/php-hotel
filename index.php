@@ -1,8 +1,9 @@
 <?php
     //<?php ? >
     include __DIR__.'/partials/variables.php';
-    //var_dump($hotels);
-
+    //var_dump($hotels); //per vedere a schermo l'array senza cambiare i fogli di lavoro 
+   
+    //controllo per quando e settato il pacheggio 
     if(isset($_GET['parking'])){
         $park = $_GET['parking'];
         $parkHotels = [];
@@ -16,6 +17,21 @@
             }
         };
         $hotels = $parkHotels;
+    };
+    //controllo per settare la cicerca sulle stelle del albergo 
+    if(isset($_GET['star'])){
+        $rating = $_GET['star'];
+        //var_dump($rating); //per vedere se il valore che restituisce e un numero e un intero 
+        $ratingHotels = [];
+        foreach ($hotels as $index => $hotel){
+            if($hotel['vote'] === (int)$rating ){  //converte nel momen della dichiarazione il valore di stringa in numero fino a questo punto il valore rimane sempre una stringa.
+                $ratingHotels [] = $hotel;
+            }
+            else if ($rating === 'reset'){
+                $ratingHotels = $hotels;
+            }
+        };
+        $hotels = $ratingHotels;
     };
     
 
@@ -40,33 +56,46 @@ Prima stampate in pagina i dati, senza preoccuparvi dello stile. Dopo aggiungete
 </head>
 <body>
     <div class="container">
+        <div class="text-center my-5">
+            <h1>Welcom to Bool Va Go</h1>
+        </div>
         <div class="row">
             <div class="col-2 ">
                 <div class="form-content mt-5">
                     <form action="index.php" method="GET">
                         <div class="form-list mb-3">
-                            <select name="parking" id="park">
+                            <!-- parking form  -->
+                            <select name="parking" id="park" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                 <option value="reset">Seleziona parcheggio</option>
                                 <option value="1">Con parcheggio</option>
                                 <option value="0">Senza parcheggio </option>
                             </select>
-                        </div>
-                        <button class="btn btn-primary">Cerca</button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-10 ">
-                <div class="table-content mt-4 text-center">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Descrizione struttura</th>
-                                <th scope="col">parcheggio</th>
-                                <th scope="col">Voto</th>
-                                <th scope="col">Distanza dal centro</th>
-                            </tr>
-                        </thead>
+                            <!-- star form -->
+                            <select name="star" id="star" class="form-select form-select-sm mt-3" aria-label=".form-select-sm example"> 
+                                <option value="reset">Stelle</option>
+                                <option value="1">1 stella</option> 
+                                <option value="2">2 stella</option> 
+                                <option value="3">3 stella</option> 
+                                <option value="4">4 stella</option> 
+                                <option value="5">5 stella</option> 
+                            </select> 
+                        </div> 
+                        <button class="btn btn-primary">Cerca</button> 
+                    </form> 
+                </div> 
+            </div> 
+            <div class="col-10 "> 
+                <div class="table-content mt-4 text-center"> 
+                    <table class="table table-striped"> 
+                        <thead> 
+                            <tr> 
+                                <th scope="col">Nome</th> 
+                                <th scope="col">Descrizione struttura</th> 
+                                <th scope="col">parcheggio</th> 
+                                <th scope="col">Voto</th> 
+                                <th scope="col">Distanza dal centro</th> 
+                            </tr> 
+                        </thead> 
                         <tbody>
                             <?php  foreach ($hotels as $hotel) { ?>
                                 <tr>
